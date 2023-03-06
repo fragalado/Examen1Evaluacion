@@ -13,7 +13,7 @@ do {
 	ciudad = prompt("Introduzca una ciudad:\nOpciones: Madrid, Paris y Londres");
 
 	// Pasamos la ciudad a mayuscula para que sea mas facil la comprobacion
-	ciudad = ciudad.toUpperCase();
+	ciudad = ciudad.toUpperCase().trim();
 	// Comprobamos si hay error, y si hay error mostramos una alerta
 	if (!isNaN(Number(ciudad)))
 		alert("**Error: La ciudad no puede ser un numero**");
@@ -22,7 +22,7 @@ do {
 
 } while (!isNaN(Number(ciudad)) || ciudad != "MADRID" && ciudad != "PARIS" && ciudad != "LONDRES");
 
-// Si la ciudad es madrid o paris obtendremos la misma fecha
+// Si la ciudad es madrid o paris (utc+1) obtendremos la misma fecha
 // Si la ciudad es londres (utc+0) obtendremos la fecha.
 let fechaActual = new Date(); // Fecha y hora actual en UTC+1
 
@@ -31,21 +31,15 @@ if (ciudad == "MADRID" || ciudad == "PARIS" || ciudad == "PARÍS") {
 	// Obtenemos la fecha y la hora con formato
 	fechaCiudad = conFormato(fechaActual.getDate(), 2) + "-" + conFormato((fechaActual.getMonth() + 1), 2) + "-" + conFormato(fechaActual.getFullYear(), 4);
 	horaCiudad = conFormato(fechaActual.getHours(), 2) + ":" + conFormato(fechaActual.getMinutes(), 2) + ":" + conFormato(fechaActual.getSeconds(), 2);
-	// Mostramos la ciudad
-	if (ciudad == "MADRID")
-		document.write("Ciudad: Madrid");
-	else
-		document.write("Ciudad: Paris");
 }
 else {
 	// Obtenemos la fecha y la hora con formato
 	fechaCiudad = conFormato(fechaActual.getUTCDate(), 2) + "-" + conFormato((fechaActual.getUTCMonth() + 1), 2) + "-" + conFormato(fechaActual.getUTCFullYear(), 4);
 	horaCiudad = conFormato(fechaActual.getUTCHours(), 2) + ":" + conFormato(fechaActual.getUTCMinutes(), 2) + ":" + conFormato(fechaActual.getUTCSeconds(), 2);
-	// Mostramos la ciudad
-	document.write("Ciudad: Londres");
 }
 
-// Mostramos la fecha y hora fuera para no repetir codigo
+// Mostramos los datos
+document.write("Ciudad: " + ciudad.charAt(0) + ciudad.substring(1).toLowerCase());
 document.write("<br>Fecha: " + fechaCiudad);
 document.write("<br>Hora: " + horaCiudad + "<br>");
 
@@ -54,7 +48,7 @@ document.write("<br>Hora: " + horaCiudad + "<br>");
 
 /**
  * Funcion para darle formato a las fechas y horas
- * Pasamos como parametro la fecha u hora y la devolveremos con formato
+ * Pasaremos como parametro la fecha u hora y la devolveremos con formato
  */
 function conFormato(sinFormato, longitud) {
 	// Variable auxiliar
